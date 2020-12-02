@@ -1,4 +1,4 @@
-lines = [l for l in open('1.in') if l]
+lines = [l for l in open('input') if l]
 values = [int(v) for v in lines]
 
 
