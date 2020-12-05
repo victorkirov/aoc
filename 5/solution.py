@@ -1,14 +1,6 @@
 lines = [l.strip() for l in open('input') if l]
 values = [v for v in lines]
 
-try:
-    values = [int(v) for v in values]
-except:
-    pass
-
-# 1 - complex
-# values_init = [v.split(' ') for v in lines]
-# values = [[v[0], v[1]] for v in values_init]
 
 def part1():
     result = 0
