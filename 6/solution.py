@@ -15,8 +15,6 @@ def part1():
 
     group_items.append(len(group))
 
-    print(group_items)
-
     return sum(group_items)
 
 
