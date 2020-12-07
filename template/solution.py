@@ -1,4 +1,5 @@
 from functools import reduce
+from itertools import product, combinations, permutations
 
 # lines
 lines = [l.strip() for l in open('input') if l]
