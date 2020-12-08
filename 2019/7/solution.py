@@ -28,7 +28,6 @@ def compute(input_values):
         elif command == 4:
             next_input = yield input[input[index + 1]]
             input_values.append(next_input)
-            # print(last_return)
             index += 2
         elif command == 5:
             a = input[index + 1] if command_def // 100 % 10 == 1 else input[input[index + 1]]
