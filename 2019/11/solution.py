@@ -1,5 +1,3 @@
-from os import X_OK
-
 lines = [l.strip() for l in open('input') if l]
 values = [int(value) for value in lines[0].split(',')]
 
