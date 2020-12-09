@@ -1,6 +1,5 @@
 from itertools import combinations
 
-# lines
 lines = [l.strip() for l in open('input') if l]
 values = [int(v) for v in lines]
 
@@ -18,13 +17,23 @@ def part1(lookback_count):
 
 def part2():
     invalid_number = part1(25)
+    lower_bound = 0
+    upper_bound = 0
 
-    for index in range(0, len(values)):
-        for inner_index in range(index, len(values)):
-            value_list = values[index:inner_index]
-            if sum(value_list) == invalid_number:
-                print(min(value_list) + max(value_list))
-                return
+    while True:
+        value_list = values[lower_bound:upper_bound]
+        list_sum = sum(value_list)
+
+        if list_sum == invalid_number:
+            return min(value_list) + max(value_list)
+        elif lower_bound > upper_bound - 1:
+            upper_bound += 1
+        elif list_sum > invalid_number:
+            lower_bound += 1
+        elif list_sum < invalid_number:
+            upper_bound += 1
+        else:
+            raise RuntimeError(f'{lower_bound}   {upper_bound}')
 
 print('Part 1: ', part1(25))
 print('Part 2: ', part2())
