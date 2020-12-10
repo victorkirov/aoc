@@ -1,17 +1,36 @@
 from functools import reduce
+from collections import defaultdict
 from itertools import product, combinations, permutations
 
-# lines
-lines = [l.strip() for l in open('input') if l]
+# strings
+lines = [l.strip() for l in open('input2') if l]
 values = [v for v in lines]
 
+# ints
+data = [l.strip() for l in open('input') if l]
+values = [int(v) for v in data]
+
 # groups
-data = open('input').read()
+data = open('input2').read()
 values = [v.strip() for v in data.split('\n\n')]
 values = [v.split('\n') for v in values]
 
+# map
+value_map = defaultdict(list)
 
-def part1():
+def is_map(parent, potential_child):
+    pass
+
+for value in values:
+    for inner in values:
+        if value == inner:
+            continue
+        if is_map(value, inner):
+            value_map[value].append(inner)
+
+
+# parts
+def part1(input):
     result = None
 
     for value in values:
@@ -20,9 +39,11 @@ def part1():
     return result
 
 
-def part2():
+def part2(input):
     pass
 
 
-print('Part 1: ', part1())
-print('Part 2: ', part2())
+print('Test: ', part1(None))
+
+print('Part 1: ', part1(None))
+print('Part 2: ', part2(None))
