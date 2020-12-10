@@ -3,7 +3,7 @@ from collections import defaultdict
 from itertools import product, combinations, permutations
 
 # strings
-lines = [l.strip() for l in open('input2') if l]
+lines = [l.strip() for l in open('input') if l]
 values = [v for v in lines]
 
 # ints
@@ -11,7 +11,7 @@ data = [l.strip() for l in open('input') if l]
 values = [int(v) for v in data]
 
 # groups
-data = open('input2').read()
+data = open('input').read()
 values = [v.strip() for v in data.split('\n\n')]
 values = [v.split('\n') for v in values]
 
@@ -42,8 +42,6 @@ def part1(input):
 def part2(input):
     pass
 
-
-print('Test: ', part1(None))
 
 print('Part 1: ', part1(None))
 print('Part 2: ', part2(None))
