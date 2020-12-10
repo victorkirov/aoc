@@ -39,8 +39,9 @@ def count_paths(start, counts):
 
 def part2():
     to_check = list(set(range(1,4))&set(j_map))
+    counts = {}
 
-    return sum([count_paths(item, {}) for item in to_check])
+    return sum([count_paths(item, counts) for item in to_check])
 
 
 print('Part 1: ', part1())
