@@ -30,7 +30,7 @@ for value in values:
 
 
 # parts
-def part1(input):
+def part1():
     result = None
 
     for value in values:
@@ -39,9 +39,9 @@ def part1(input):
     return result
 
 
-def part2(input):
+def part2():
     pass
 
 
-print('Part 1: ', part1(None))
-print('Part 2: ', part2(None))
+print('Part 1: ', part1())
+print('Part 2: ', part2())
