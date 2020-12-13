@@ -36,14 +36,9 @@ def part2():
 
     mins = 0
     repeat = 1
-    while required_departures:
-        bus, diff = required_departures.pop(0)
-
-        runs = 0
-        while ((mins + repeat * runs) + diff) % bus != 0:
-            runs += 1
-
-        mins = mins + runs * repeat
+    for bus, diff in required_departures:
+        while (mins + diff) % bus != 0:
+            mins = mins + repeat
 
         repeat = lcm(repeat, bus)
 
