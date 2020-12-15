@@ -5,14 +5,16 @@ values = [int(v) for v in list(lines[0])]
 pattern = [0, 1, 0, -1]
 
 
-def run_thing(input, input_repetitions, permutations):
-    current_permutation = input * input_repetitions
+def run_thing(input):
+    current_permutation = list(input)
     next_permutation = []
 
-    for _ in range(permutations):
+    for _ in range(100):
         current_permutation = [0] + current_permutation
 
+        track = []
         for index, _ in enumerate(current_permutation):
+            # index = len(current_permutation) - index - 1
             amount = 0
             pattern_index = 0
 
@@ -33,6 +35,7 @@ def run_thing(input, input_repetitions, permutations):
                 itt_index += itt_inc
 
             next_permutation.append(int(str(amount)[-1]))
+            track .append(amount)
 
         current_permutation = next_permutation[:-1]
         next_permutation = []
@@ -41,19 +44,26 @@ def run_thing(input, input_repetitions, permutations):
 
 # parts
 def part1():
-    result = run_thing(values, 1, 100)
+    result = run_thing(values)
 
     return ''.join([str(v) for v in result[:8]])
 
 
 def part2():
-    result = run_thing(values, 10000, 100)
+    input = values * 10000
 
-    offset_index = int(''.join(values[:7]))
-    return ''.join([str(v) for v in result[offset_index:offset_index + 8]])
+    offset_index = int(''.join(map(str, input[:7])))
+
+    sub_values = input[offset_index:]
+
+    for _ in range(100):
+        current_sum = 0
+        for i in range(len(sub_values) - 1, -1, -1):
+            current_sum += sub_values[i]
+            sub_values[i] = current_sum % 10
+
+    return ''.join([str(v) for v in sub_values[:8]])
 
 
 print('Part 1: ', part1())  # 25131128
-# print('Part 2: ', part2())
-
-# run_thing(values, 1, 1)
+print('Part 2: ', part2())
