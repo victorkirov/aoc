@@ -1,5 +1,5 @@
 # strings
-lines = [l.strip() for l in open('input2') if l]
+lines = [l.strip() for l in open('input') if l]
 values = [int(v) for v in list(lines[0])]
 
 pattern = [0, 1, 0, -1]
@@ -10,35 +10,40 @@ def run_thing(input, input_repetitions, permutations):
     next_permutation = []
 
     for _ in range(permutations):
-        sums = []
+        current_permutation = [0] + current_permutation
+
         for index, _ in enumerate(current_permutation):
-            current_pattern = []
-            for entry in pattern:
-                current_pattern = current_pattern + ([entry] * (index + 1))
-
             amount = 0
-            for pattern_index in range(len(sums), len(current_permutation)):
-                value = current_permutation[pattern_index]
+            pattern_index = 0
 
-                sums.append(value * current_pattern[(pattern_index + 1 ) % len(current_pattern)])
+            itt_index = 0
+            itt_inc = index + 1
 
-            amount = sum(sums)
+            while itt_index < len(current_permutation):
+                end_index = min(itt_index + itt_inc, len(current_permutation))
+                if pattern[pattern_index] == 0:
+                    pass
+                elif pattern[pattern_index] == 1:
+                    amount += sum(current_permutation[itt_index:end_index])
+                elif pattern[pattern_index] == -1:
+                    amount -= sum(current_permutation[itt_index:end_index])
+
+                pattern_index += 1
+                pattern_index %= len(pattern)
+                itt_index += itt_inc
+
             next_permutation.append(int(str(amount)[-1]))
-            print((current_pattern * 10)[1:len(sums) + 1])
-            # print(sums)
-            # print()
-            sums = sums[:index]
 
-        current_permutation = next_permutation
+        current_permutation = next_permutation[:-1]
         next_permutation = []
 
-    return current_permutation
+    return current_permutation[:-1]
 
 # parts
 def part1():
     result = run_thing(values, 1, 100)
 
-    return ''.join([str(v) for v in result])[:8]
+    return ''.join([str(v) for v in result[:8]])
 
 
 def part2():
@@ -48,7 +53,7 @@ def part2():
     return ''.join([str(v) for v in result[offset_index:offset_index + 8]])
 
 
-# print('Part 1: ', part1())  # 25131128
+print('Part 1: ', part1())  # 25131128
 # print('Part 2: ', part2())
 
-run_thing(values, 1, 1)
+# run_thing(values, 1, 1)
