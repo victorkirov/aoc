@@ -40,26 +40,21 @@ def part1():
 
 def part2():
     _, valid_tickets = part1()
+    req_name = 'departure'
 
     ticket_fields = {i: set(v) for i, v in enumerate(zip(*valid_tickets))}
 
-    field_mapping = {}
+    field_mapping = defaultdict(set)
 
-    while len(fields) != 0:
-        for field, field_values in fields.items():
-            rule_positions = []
+    for field, field_values in fields.items():
+        for index, ticket_values in ticket_fields.items():
+            if not ticket_values.difference(field_values):
+                field_mapping[field].add(index)
 
-            for index, ticket_values in ticket_fields.items():
-                if not ticket_values.difference(field_values):
-                    rule_positions.append(index)
-
-            if len(rule_positions) == 1:
-                field_mapping[field] = rule_positions[0]
-                fields.pop(field)
-                ticket_fields.pop(rule_positions[0])
-                break
-
-    req_name = 'departure'
+    mapped = set()
+    for field, columns in sorted(list(field_mapping.items()), key=lambda i: len(i[1])):
+        field_mapping[field] = list(columns.difference(mapped))[0]
+        mapped.add(field_mapping[field])
 
     return prod([my_ticket[i] for f, i in field_mapping.items() if f.startswith(req_name)])
 
