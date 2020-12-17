@@ -1,4 +1,5 @@
 from itertools import permutations
+import operator
 
 # strings
 lines = [l.strip() for l in open('input') if l]
@@ -37,7 +38,7 @@ def get_next_state(current_state, dimensions):
         active_neighbours = 0
 
         for perm in neighbour_perms:
-            neighbour = tuple([sum(i) for i in zip(position,perm)])
+            neighbour = tuple(map(operator.add, position, perm))
             if neighbour in current_state:
                 active_neighbours += 1
             if active_neighbours >= 4:
