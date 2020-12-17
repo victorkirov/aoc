@@ -67,4 +67,4 @@ def run(runs, dimensions):
 
 
 print('Part 1: ', run(6, 3))
-print('Part 2: ', run(6,4 ))
+print('Part 2: ', run(6, 4))
