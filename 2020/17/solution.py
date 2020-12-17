@@ -1,7 +1,6 @@
 from itertools import permutations
 import operator
 from cachetools import cached, LRUCache
-from time import time
 
 # strings
 lines = [l.strip() for l in open('input') if l]
