@@ -57,23 +57,14 @@ def get_input_set(dimensions):
     return set([i + (0,) * add_dims for i in active_set])
 
 # parts
-def part1():
-    result = get_input_set(3)
+def run(runs, dimensions):
+    result = get_input_set(dimensions)
 
-    for i in range(6):
-        result = get_next_state(result, 3)
-
-    return len(result)
-
-
-def part2():
-    result = get_input_set(4)
-
-    for i in range(6):
-        result = get_next_state(result, 4)
+    for i in range(runs):
+        result = get_next_state(result, dimensions)
 
     return len(result)
 
 
-print('Part 1: ', part1())
-print('Part 2: ', part2())
+print('Part 1: ', run(6, 3))
+print('Part 2: ', run(6,4 ))
