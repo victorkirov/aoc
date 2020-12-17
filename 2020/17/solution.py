@@ -18,31 +18,22 @@ def get_next_state(current_state, dimensions):
     neighbour_perm_list = [0] * (dimensions - 1) + [1,-1] * dimensions
     neighbour_perms = set(permutations(neighbour_perm_list, dimensions))
 
-    positions = None
-    for dim in range(0,dimensions):
-        mind = min([c[dim] for c in current_state]) - 1
-        maxd = max([c[dim] for c in current_state]) + 1
-
-        if positions is None:
-            positions = [(i,) for i in range(mind, maxd + 1)]
-        else:
-            next_postions = []
-            for position in positions:
-                for i in range(mind, maxd + 1):
-                    next_postions.append(position + (i,))
-            positions = next_postions
+    positions_to_consider = set(current_state)
+    for position in current_state:
+        positions_to_consider |= set(
+            tuple(map(operator.add, position, perm))
+            for perm in neighbour_perms
+        )
 
     next_state = set()
-    for position in positions:
+    for position in positions_to_consider:
         is_active = position in current_state
-        active_neighbours = 0
+        active_neighbours = sum(
+            1
+            for perm in neighbour_perms
+            if tuple(map(operator.add, position, perm)) in current_state
+        )
 
-        for perm in neighbour_perms:
-            neighbour = tuple(map(operator.add, position, perm))
-            if neighbour in current_state:
-                active_neighbours += 1
-            if active_neighbours >= 4:
-                break
         if (
             2 <= active_neighbours <= 3 and is_active
             or active_neighbours == 3 and not is_active
@@ -54,7 +45,7 @@ def get_next_state(current_state, dimensions):
 
 def get_input_set(dimensions):
     add_dims = dimensions - 2
-    return set([i + (0,) * add_dims for i in active_set])
+    return set(i + (0,) * add_dims for i in active_set)
 
 # parts
 def run(runs, dimensions):
