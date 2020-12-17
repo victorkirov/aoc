@@ -1,5 +1,7 @@
 from itertools import permutations
 import operator
+from cachetools import cached, LRUCache
+from time import time
 
 # strings
 lines = [l.strip() for l in open('input') if l]
@@ -14,18 +16,27 @@ for y in range(0, len(values)):
             active_set.add((x,y))
 
 
-def get_next_state(current_state, dimensions):
-    neighbour_perm_list = [0] * (dimensions - 1) + [1,-1] * dimensions
-    neighbour_perms = set(permutations(neighbour_perm_list, dimensions))
+@cached(cache=LRUCache(maxsize=2))
+def get_neighbour_permutations(dimensions):
+    return set(permutations([0,1,-1] * dimensions, dimensions))
 
-    positions_to_consider = set(current_state)
-    for position in current_state:
-        positions_to_consider |= set(
-            tuple(map(operator.add, position, perm))
-            for perm in neighbour_perms
-        )
+
+@cached(cache=LRUCache(maxsize=2))
+def get_neighbour_permutations_ex_me(dimensions):
+    neighbour_perm_list = [0] * (dimensions - 1) + [1,-1] * dimensions
+    return set(permutations(neighbour_perm_list, dimensions))
+
+
+def get_next_state(current_state, dimensions):
+    positions_to_consider = set(
+        tuple(map(operator.add, position, perm))
+        for position in current_state
+        for perm in get_neighbour_permutations(dimensions)
+    )
 
     next_state = set()
+
+    neighbour_perms = get_neighbour_permutations_ex_me(dimensions)
     for position in positions_to_consider:
         is_active = position in current_state
         active_neighbours = sum(
@@ -43,15 +54,11 @@ def get_next_state(current_state, dimensions):
     return next_state
 
 
-def get_input_set(dimensions):
-    add_dims = dimensions - 2
-    return set(i + (0,) * add_dims for i in active_set)
-
 # parts
 def run(runs, dimensions):
-    result = get_input_set(dimensions)
+    result = set(i + (0,) * (dimensions - 2) for i in active_set)
 
-    for i in range(runs):
+    for _ in range(runs):
         result = get_next_state(result, dimensions)
 
     return len(result)
