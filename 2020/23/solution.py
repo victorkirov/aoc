@@ -1,7 +1,3 @@
-from functools import reduce
-from collections import defaultdict
-from itertools import product, combinations, permutations
-
 # strings
 lines = [l.strip() for l in open('input') if l]
 values = [v for v in lines]
@@ -57,7 +53,8 @@ def part2():
         result[current] = result[picked_val_3]
 
         placement_val = current - 1
-        while placement_val < 1 or placement_val in [picked_val_1, picked_val_2, picked_val_3]:
+        picked_vals = [picked_val_1, picked_val_2, picked_val_3]
+        while placement_val < 1 or placement_val in picked_vals:
             placement_val -= 1
 
             if placement_val < 1:
