@@ -64,8 +64,6 @@ def part1():
 def process(
     bin_lst: List[str],
 ) -> Tuple[int, List[str]]:
-    result = 0
-
     version = int(''.join(bin_lst[:3]), 2)
     bin_lst = bin_lst[3:]
     op_type = int(''.join(bin_lst[:3]), 2)
