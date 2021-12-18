@@ -121,8 +121,23 @@ def part1():
     return get_score(result)
 
 def part2():
-    pass
+    biggest_score = 0
+    for i in range(len(values)):
+        for j in range(len(values)):
+            if i == j:
+                continue
+            num = extract_definition_list(values[i])
+            num += extract_definition_list(values[j])
 
+            for val in num:
+                val['depth'] += 1
+
+            num = reduce_num(num)
+            score = get_score(num)
+
+            biggest_score = max([biggest_score, score])
+
+    return biggest_score
 
 print('Part 1: ', part1())
 print('Part 2: ', part2())
