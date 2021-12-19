@@ -18,31 +18,16 @@ values = [
 def get_orientations(
     scan: Set[Tuple[int, int, int]]
 ) -> Generator[Set[Tuple[int, int, int]], None, Set[Tuple[int, int, int]]]:
-    # z
-    dummy = set(scan)
-    for _ in range(2):
-        for _ in range(4):
-            yield dummy
-            dummy = {(y, -x, z) for (x, y, z) in dummy}
-        dummy = {(y, x, -z) for (x, y, z) in dummy}
-
-    # y
-    dummy = set(scan)
-    dummy = {(z, x, y) for (x, y, z) in dummy}
-    for _ in range(2):
-        for _ in range(4):
-            yield dummy
-            dummy = {(y, -x, z) for (x, y, z) in dummy}
-        dummy = {(y, x, -z) for (x, y, z) in dummy}
-
-    #x
-    dummy = set(scan)
-    dummy = {(y, z, x) for (x, y, z) in dummy}
-    for _ in range(2):
-        for _ in range(4):
-            yield dummy
-            dummy = {(y, -x, z) for (x, y, z) in dummy}
-        dummy = {(y, x, -z) for (x, y, z) in dummy}
+    for dummy in [
+        set(scan),  # assuming we are facing z
+        {(z, x, y) for (x, y, z) in set(scan)},  # assuming we are facing y
+        {(y, z, x) for (x, y, z) in set(scan)}  # assuming we are facing x
+    ]:
+        for _ in range(2):
+            for _ in range(4):
+                yield dummy
+                dummy = {(y, -x, z) for (x, y, z) in dummy}
+            dummy = {(y, x, -z) for (x, y, z) in dummy}
 
     return dummy
 
