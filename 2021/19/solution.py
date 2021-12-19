@@ -63,6 +63,8 @@ def shift_scan(
 # parts
 def get_scan_details() -> Tuple[Set[Tuple[int, int, int]], List[Tuple[int, int, int]]]:
     points = values[0]
+    new_points = points
+
     scanners = [(0, 0, 0)]
 
     unmatched_scanners = values[1:]
@@ -71,15 +73,17 @@ def get_scan_details() -> Tuple[Set[Tuple[int, int, int]], List[Tuple[int, int, 
         match_found = False
         for scanner in unmatched_scanners:
             for orientated_scanner in get_orientations(scanner):
-                for (px, py, pz) in points:
+                for (px, py, pz) in new_points:
                     for (sx, sy, sz) in orientated_scanner:
                         dx = px - sx
                         dy = py - sy
                         dz = pz - sz
                         shifted_scan = shift_scan(orientated_scanner, dx, dy, dz)
 
-                        if len(shifted_scan.intersection(points)) >= 12:
+                        if len(shifted_scan.intersection(new_points)) >= 12:
                             points = points | shifted_scan
+                            new_points = (points & shifted_scan) | shifted_scan
+
                             scanners.append((dx, dy, dz))
                             break
                     else:
@@ -97,7 +101,8 @@ def get_scan_details() -> Tuple[Set[Tuple[int, int, int]], List[Tuple[int, int, 
             unmatched_scanners.remove(scanner)
             print(f'{len(unmatched_scanners)} left')
         else:
-            print('Infinite Loop')
+            print("Couldn't find match in new points, checking all")
+            new_points = points
 
     return points, scanners
 
