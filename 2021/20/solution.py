@@ -24,13 +24,14 @@ def solve(runs):
     current_map = list(input_map)
     # print_map(current_map)
 
+    fill_char = '0'
+
     for run in range(runs):
         next_map = list()
-        fill_char = alg[(run + 1) % 2]
 
-        for row in range(-1, len(current_map) + 1):
+        for row in range(-2, len(current_map) + 2):
             next_row = []
-            for column in range(-1, len(current_map[0]) + 1):
+            for column in range(-2, len(current_map[0]) + 2):
                 ref = ''
                 for (dx, dy) in neighbour_offsets:
                     y = row + dy
@@ -47,6 +48,8 @@ def solve(runs):
             next_map.append(next_row)
 
         current_map = next_map
+        fill_char = alg[0 if fill_char == '0' else -1]
+
         # print_map(current_map)
 
     return sum([sum([int(cell) for cell in row]) for row in current_map])
