@@ -5,7 +5,7 @@ from cachetools import cached, TTLCache
 
 cache = TTLCache(maxsize=1000000000, ttl=86400)
 
-p1_start = 4
+p1_start = 5
 p2_start = 8
 
 
@@ -50,7 +50,7 @@ def part1():
     return min([p1_score, p2_score]) * rolls
 
 
-possible_rolls = list(set(combinations([1,1,1,2,2,2,3,3,3], 3)))
+possible_rolls = list(sum(combo) for combo in set(permutations([1,1,1,2,2,2,3,3,3], 3)))
 
 @cached(cache)
 def get_winner_counts(p1_position, p2_position, p1_score, p2_score):
@@ -86,7 +86,7 @@ def get_winner_counts(p1_position, p2_position, p1_score, p2_score):
 
 
 def part2():
-    return get_winner_counts(p1_start, p2_start, 0, 0)
+    return max(list(get_winner_counts(p1_start, p2_start, 0, 0)))
 
 
 print('Part 1: ', part1())
