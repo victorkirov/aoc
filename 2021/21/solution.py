@@ -1,9 +1,7 @@
-from functools import reduce
+from functools import reduce, cache
 from collections import defaultdict
 from itertools import product, combinations, permutations
-from cachetools import cached, TTLCache
 
-cache = TTLCache(maxsize=1000000000, ttl=86400)
 
 p1_start = 5
 p2_start = 8
@@ -52,7 +50,7 @@ def part1():
 
 possible_rolls = list(sum(combo) for combo in set(permutations([1,1,1,2,2,2,3,3,3], 3)))
 
-@cached(cache)
+@cache
 def get_winner_counts(p1_position, p2_position, p1_score, p2_score):
     wins_1 = 0
     wins_2 = 0

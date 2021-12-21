@@ -1,9 +1,7 @@
-from functools import reduce
+from functools import reduce,cache
 from collections import defaultdict, Counter
 from itertools import product, combinations, permutations
-from cachetools import cached, TTLCache
 
-cache = TTLCache(maxsize=1000000000, ttl=86400)
 
 # groups
 data = open('input').read()
@@ -47,7 +45,7 @@ def part1():
     return max(counts.values()) - min(counts.values())
 
 
-@cached(cache)
+@cache
 def counts_for_pair(left, right, depth):
     if depth == 0:
         return {}

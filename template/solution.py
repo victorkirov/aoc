@@ -1,4 +1,4 @@
-from functools import reduce
+from functools import reduce, cache
 from collections import defaultdict
 from itertools import product, combinations, permutations
 
