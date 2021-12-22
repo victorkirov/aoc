@@ -3,6 +3,7 @@ from collections import defaultdict
 from itertools import product, combinations, permutations
 from typing import List
 
+
 # strings
 lines = [l.strip() for l in open('input') if l]
 values = [v for v in lines]
@@ -72,6 +73,16 @@ def process_diff(
     y_vals.sort()
     z_vals.sort()
 
+    if (
+        x_vals[0] == rx_start and x_vals[1] == rx_end
+        or x_vals[-2] == rx_start and x_vals[-1] == rx_end
+        or y_vals[0] == ry_start and y_vals[1] == ry_end
+        or y_vals[-2] == ry_start and y_vals[-1] == ry_end
+        or z_vals[0] == rz_start and z_vals[1] == rz_end
+        or z_vals[-2] == rz_start and z_vals[-1] == rz_end
+    ):
+        return [region]
+
     regions = []
 
     for xi in range(3):
@@ -113,6 +124,7 @@ def process_diff(
 
 def part2():
     regions = []
+    runs = 0
     for (
         command,
         x_start,
@@ -122,6 +134,8 @@ def part2():
         z_start,
         z_end
     ) in commands:
+        runs += 1
+        print(runs)
         new_regions = []
         for region in regions:
             new_regions += process_diff(
