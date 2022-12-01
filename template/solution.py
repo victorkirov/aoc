@@ -2,16 +2,19 @@ from functools import reduce, cache
 from collections import defaultdict
 from itertools import product, combinations, permutations
 
+# input_file_name = 'input'
+input_file_name = 'test'
+
 # strings
-lines = [l.strip() for l in open('input') if l]
+lines = [l.strip() for l in open(input_file_name) if l]
 values = [v for v in lines]
 
 # ints
-data = [l.strip() for l in open('input') if l]
+data = [l.strip() for l in open(input_file_name) if l]
 values = [int(v) for v in data]
 
 # groups
-data = open('input').read()
+data = open(input_file_name).read()
 values = [v.strip() for v in data.split('\n\n')]
 values = [v.split('\n') for v in values]
 
