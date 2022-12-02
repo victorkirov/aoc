@@ -1,7 +1,3 @@
-from functools import reduce, cache
-from collections import defaultdict
-from itertools import product, combinations, permutations
-
 # groups
 data = open('input').read()
 values = [v.strip() for v in data.split('\n\n')]
