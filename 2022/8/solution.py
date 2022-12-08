@@ -7,39 +7,29 @@ input_file_name = 'input'
 # strings
 lines = [l.strip() for l in open(input_file_name) if l]
 values = [
-    [
-        {
-            'height': int(x),
-            'visible': False
-        }
-         for x in list(v)
-    ]
+    [int(x) for x in list(v)]
     for v in lines
 ]
 
 
 def part1():
+    visible_trees = set()
     def set_visibility(r1, r2, rev=False):
         for r in r1:
             height = -1
             for c in r2:
-                tree = values[r][c] if rev else values[c][r]
-                if tree['height'] > height:
-                    tree['visible'] = True
-                    height = tree['height']
+                row, column = (c, r) if rev else (r, c)
+                tree_height = values[row][column]
+                if tree_height > height:
+                    visible_trees.add((row, column))
+                    height = tree_height
 
     set_visibility(range(len(values)), range(len(values[0])))
     set_visibility(range(len(values)), range(len(values[0]) - 1, -1, -1))
     set_visibility(range(len(values[0])), range(len(values)), True)
     set_visibility(range(len(values[0])), range(len(values) - 1, -1, -1), True)
 
-    visible = 0
-    for row in values:
-        for tree in row:
-            if tree['visible']:
-                visible += 1
-
-    return visible
+    return len(visible_trees)
 
 
 def part2():
@@ -53,14 +43,14 @@ def part2():
                 score = 0
                 row = r
                 col = c
-                height = values[row][col]['height']
+                height = values[row][col]
                 while True:
                     row += direction[0]
                     col += direction[1]
                     if row < 0 or row >= len(values) or col < 0 or col >= len(values[0]):
                         break
                     score += 1
-                    if values[row][col]['height'] >= height:
+                    if values[row][col] >= height:
                         break
                 current_score = current_score * score
             if current_score > max_score:
