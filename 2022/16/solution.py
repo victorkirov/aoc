@@ -2,7 +2,6 @@ from functools import cache
 import time
 
 input_file_name = 'input'
-input_file_name = 'test'
 
 lines = [l.strip() for l in open(input_file_name) if l]
 values = [v for v in lines]
